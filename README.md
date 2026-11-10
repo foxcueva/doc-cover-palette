@@ -49,16 +49,19 @@ Dependencies by route: spec-only = none ｜ PDF = `python3` + `reportlab` ｜ do
 | 焦糖 | `#B26B3F` | 强调点缀（≤10% 面积） |
 | 蜜白 | `#EAD9C0` | 深底反白字 |
 
-## 双版式（默认深色，8mm 书脊互为镜像）
+## 版式（默认深色封面，8mm 书脊互为镜像）
 
 **需要封面时默认出全幅版（深色）**；用户点名浅色才切书脊版。出封面时告知用户可切换——别让人翻脚本找选项。
 
+**封底默认不出**；文档 ≥8 页或要打印装订时，agent 主动建议加。封底书脊条**右置**（装订镜像：双面打印装订后与封面书脊条同贴装订缝）。**条码仅当用户提供真实 EAN-13 码值才生成**——agent 不建议、不预填、不出演示码；无码不出码，无码零占位。
+
 | 版式 | 底面 | 书脊条 | 何时用 | 命令 |
 |---|---|---|---|---|
-| 全幅版 | 主栗深底 | 浅驼 `#E3D0BA` | **默认** | `gen_cover.py`（不传 --layout） |
-| 书脊版 | 雾白浅底 | 深栗 `#492D22` | 用户点名浅色 | `gen_cover.py --layout spine` |
+| 全幅封面 | 主栗深底 | 浅驼 `#E3D0BA` 左置 | **默认** | `gen_cover.py`（不传 --layout） |
+| 书脊封面 | 雾白浅底 | 深栗 `#492D22` 左置 | 用户点名浅色 | `gen_cover.py --layout spine` |
+| 封底 | 主栗深底 | 浅驼 `#E3D0BA` **右置** | ≥8 页/正式文档（agent 建议，用户点头） | `gen_cover.py --layout back`（条码加 `--barcode "EAN13"`） |
 
-正文内页无论配哪版封面，一律 C 浅底；A 只上封面/扉页。
+正文内页无论配哪版封面，一律 C 浅底；A 只上封面/封底。
 
 ## 快速验证
 
@@ -67,7 +70,11 @@ Dependencies by route: spec-only = none ｜ PDF = `python3` + `reportlab` ｜ do
 python3 scripts/gen_cover.py \
   --title1 "标题" --title2 "第二行" --subtitle "副题" --info "日期" --out t.pdf --png 150
 
-# Word 文档（封面+目录+正文全套示例）
+# 封底（装订镜像；条码仅用户给真实 EAN-13 才加 --barcode）
+python3 scripts/gen_cover.py --layout back --eyebrow "DOC SERIES" \
+  --info "2026 · SUMMARY" --corner-no "NO.01" --out back.pdf --png 150
+
+# Word 文档（封面+目录+正文+封底全套示例）
 cd scripts/docx && npm install docx && node example_report.js demo.docx
 ```
 
@@ -86,8 +93,8 @@ doc-cover-palette/
 │   └── 配色版式设计书_V2.1_带版权.pdf
 └── scripts/
     ├── gen_palette_book.py       # 设计书生成器（参数化母版）
-    ├── gen_cover.py              # 双版式封面 CLI（出血/预览/宽度自检）
-    └── docx/                     # Word 路线：theme.js / cover-fullbleed.js（默认深色封面）/ cover-spine.js（浅色）/ 同源校验 / 页码补丁
+    ├── gen_cover.py              # 三版式 CLI：封面×2+封底（出血/预览/宽度自检/EAN-13 条码）
+    └── docx/                     # Word 路线：theme.js / cover-fullbleed.js（默认深色封面）/ cover-spine.js（浅色）/ cover-back.js（封底·装订镜像）/ 同源校验 / 页码补丁
 ```
 
 ## License

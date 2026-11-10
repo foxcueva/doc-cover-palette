@@ -18,8 +18,8 @@ if [ ! -f "$BUILD_JS" ]; then
   exit 2
 fi
 
-# 构建前同源校验：目标脚本 + 主题库 + 两个封面库，色值全部受 palette.json 约束
-node "$HERE/docx_palette_check.js" "$BUILD_JS" "$HERE/theme.js" "$HERE/cover-fullbleed.js" "$HERE/cover-spine.js" \
+# 构建前同源校验：目标脚本 + 主题库 + 三个封面库，色值全部受 palette.json 约束
+node "$HERE/docx_palette_check.js" "$BUILD_JS" "$HERE/theme.js" "$HERE/cover-fullbleed.js" "$HERE/cover-spine.js" "$HERE/cover-back.js" \
   || { echo "palette 校验失败，终止构建" >&2; exit 3; }
 
 # NODE_PATH 兼容：docx 装在全局或 .pylibs 风格目录时也能找到

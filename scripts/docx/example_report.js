@@ -7,7 +7,9 @@ const fs = require('fs');
 const path = require('path');
 const T = require(path.join(__dirname, 'theme.js'));
 const { buildFullbleedCover } = require(path.join(__dirname, 'cover-fullbleed.js'));
+const { buildBackCover } = require(path.join(__dirname, 'cover-back.js'));
 // 浅色封面改用：require('./cover-spine.js') 的 buildSpineCover（字段 pill/footLeft/footRight）
+// 封底默认不出（≥8 页或正式文档时建议加）；条码仅用户提供真实 EAN-13 才传 barcode 字段
 
 const daily = [
   ['10-12', 0.90], ['10-13', 0.60], ['10-14', 0.65], ['10-15', 1.50],
@@ -112,6 +114,13 @@ const doc = new Document({
       ] },
     { properties: { type: SectionType.NEXT_PAGE, page: { size: pgSize, margin: pgMargin, pageNumbers: { start: 1, formatType: NumberFormat.DECIMAL } } },
       footers: { default: pageNumFooter() }, children: body },
+    { properties: { type: SectionType.NEXT_PAGE, page: { size: pgSize, margin: { top: 0, bottom: 0, left: 0, right: 0, footer: 0, header: 0 } } },
+      footers: { default: new Footer({ children: [] }) },   // 封底必须覆盖空页脚（footer 距离也归零）：整页表格遇页脚占位会裂成两页
+      children: buildBackCover({                          // 封底（演示用法；实际使用按 SKILL 规则在 ≥8 页或正式文档时建议）
+        eyebrow: 'API CONSUMPTION · QUARTERLY',
+        info: '2026 · SUMMARY',
+        cornerNo: 'SUMMARY · NO.01',
+      }) },
   ],
 });
 
