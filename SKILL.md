@@ -4,7 +4,7 @@ description: '文档封面配色与版式系统「雾林奶咖 × 栗皮本色�
 license: CC BY-NC 4.0 (author: 湫黎)
 metadata:
   author: 湫黎
-  version: "2.3.1"
+  version: "2.3.2"
   tags:
     - 配色
     - 封面设计
