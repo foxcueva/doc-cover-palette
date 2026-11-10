@@ -1,10 +1,10 @@
 ---
 name: doc-cover-palette
-description: '文档封面配色与版式系统「雾林奶咖 × 栗皮本色」（湫黎设计）。当用户需要：文档封面设计、给报告/文档做封面、封面配色、Word 文档主题色、报告排版配色、文档样式规范、按既有配色出封面、查色号或搭配、海报/卡片用这套棕色系时使用。封面默认规则：需要封面时一律先出全幅版（A 栗皮本色深底 + 8mm 浅驼书脊，正式有分量），并主动告知用户可改浅色书脊版（C 雾白浅底 + 8mm 深栗书脊）——不让用户读脚本猜。封底默认规则：封底默认不出；文档 ≥8 页或正式文档（打印装订）时主动建议加封底（装订镜像：书脊条右置）；条码仅当用户提供真实 EAN-13 码值才生成，agent 不建议不预填不出演示码。PDF 定稿用 gen_cover.py 一键生成（默认深色，--layout spine 切浅色，--layout back 出封底，支持出血与 PNG 预览），可编辑 Word 文档用 scripts/docx 路线（Node docx, MIT），全部色值单一来源 references/palette.json。提供完整色值（HEX/RGB/CMYK）、WCAG 对比度约束、字号级数、三套版面几何（封面×2+封底）与可运行生成脚本。Use when the user needs document cover design, a brown/cream palette system, document theme colors, or typography specs; cover defaults to dark full-bleed (mirrored 8mm sand spine), switchable to light spine cover on request — always tell the user; back cover off by default but suggested for formal docs / docs ≥8 pages (binding-mirrored, spine bar right); barcode only with user-provided real EAN-13, never suggested; PDF via gen_cover.py (dark by default), editable docx via scripts/docx; single color source palette.json.'
+description: '文档封面配色与版式系统「雾林奶咖 × 栗皮本色」（湫黎设计）。当用户需要：文档封面设计、给报告/文档做封面、封面配色、Word 文档主题色、报告排版配色、文档样式规范、按既有配色出封面、查色号或搭配、海报/卡片用这套棕色系时使用。封面默认规则：需要封面时一律先出全幅版（A 栗皮本色深底 + 8mm 浅驼书脊，正式有分量），并主动告知用户可改浅色书脊版（C 雾白浅底 + 8mm 深栗书脊）——不让用户读脚本猜。封底默认规则：封底默认不出；文档 ≥8 页或正式文档（打印装订）时主动建议加封底（装订镜像：书脊条右置）；条码仅当用户提供真实 EAN-13 码值才生成，agent 不建议不预填不出演示码。正文底规则：内页默认纸白（不铺色、印刷零墨、屏幕最锐利），用户点名护眼/柔和才切雾白。PDF 定稿用 gen_cover.py 一键生成（默认深色，--layout spine 切浅色，--layout back 出封底，支持出血与 PNG 预览），可编辑 Word 文档用 scripts/docx 路线（Node docx, MIT），全部色值单一来源 references/palette.json。提供完整色值（HEX/RGB/CMYK）、WCAG 对比度约束、字号级数、三套版面几何（封面×2+封底）与可运行生成脚本。Use when the user needs document cover design, a brown/cream palette system, document theme colors, or typography specs; cover defaults to dark full-bleed (mirrored 8mm sand spine), switchable to light spine cover on request — always tell the user; back cover off by default but suggested for formal docs / docs ≥8 pages (binding-mirrored, spine bar right); barcode only with user-provided real EAN-13, never suggested; body pages default to paper white (no fill, zero print ink), cream only when the user asks for eye-care; PDF via gen_cover.py (dark by default), editable docx via scripts/docx; single color source palette.json.'
 license: CC BY-NC 4.0 (author: 湫黎)
 metadata:
   author: 湫黎
-  version: "2.2.0"
+  version: "2.3.0"
   tags:
     - 配色
     - 封面设计
@@ -38,7 +38,7 @@ metadata:
 | 焦糖 | #B26B3F | 178 107 63 | 强调点缀 · 高亮（≤10% 面积） |
 | 蜜白 | #EAD9C0 | 234 217 192 | 深底标题与正文（反白） |
 
-分工口诀：**C 管全文，A 管点状深底**——正式文档 = A 封面 + C 内页；通篇深底不做（墨量、可读性、印刷成本三输）。
+分工口诀：**A 管封面/封底深底，C 管浅色封面与装饰**——正式文档 = A 封面 + 纸白内页；**内页底默认纸白（不铺色 · 印刷零墨 · 屏幕最锐利），用户点名护眼/柔和才切雾白 #F7F1E7**（TA 2026-11-10 实测拍板：深栗字压雾白偏费眼）；通篇深底不做（墨量、可读性、印刷成本三输）。
 
 ## 封面封底选型路由（默认深色封面，封底默认不出）
 
@@ -58,7 +58,7 @@ metadata:
 
 - 封面两版是**不同版式，不是同一版式换色**：书脊版 26pt 标题 + 胶囊标签 + 页脚行；全幅版 30pt 标题 + 焦糖短条 + 左下三段层级短条 + 右下编号。几何、字号、专属元素不可混用。
 - 封面/封底/内页共同锚点——**8mm 书脊条**：封面浅驼 #E3D0BA 压主栗底（左侧），封底浅驼右置（装订镜像，双面装订后两条同贴装订缝）；书脊版封面则深栗压雾白（左侧）。同宽同色语言，位置按装订物理定。
-- 正文内页无论配哪版封面，一律 C 雾林奶咖浅底（A 只上封面/封底）。
+- 正文内页无论配哪版封面，**默认纸白**（docx 不设 background 即白页；reportlab 不铺底）——印刷零墨、屏幕阅读最锐利；用户点名「护眼 / 柔和 / 暖一点」时切雾白 #F7F1E7（docx `background: { color: T.CREAM }`）。雾白底的深栗字依然 AAA（11.1:1），只是长时间屏幕阅读比纸白费眼——默认别用。
 
 ## 六条铁律（改任何东西前先过一遍）
 
@@ -117,7 +117,7 @@ python3 scripts/gen_palette_book.py --out 输出目录   # 出整本设计规格
 脚本在本 skill 的 `scripts/docx/` 目录（Node ≥18；npm 包 docx，MIT）：
 ```bash
 cd scripts/docx && npm install docx      # 首次
-node example_report.js 我的文档.docx     # 先跑示例：封面+目录+正文+表格全套版式
+node example_report.js 我的文档.docx     # 先跑示例：封面+目录+正文+封底全套（正文纸白默认）
 # 自建文档：写 build.js，require('./theme.js') 拿色号/字号/构造器，
 # 封面默认深色：require('./cover-fullbleed.js') 用 buildFullbleedCover（eyebrow/title1/title2/subtitle/info/cornerNo）
 # 用户点名浅色：require('./cover-spine.js') 用 buildSpineCover（另支持 pill/footLeft/footRight）
@@ -153,7 +153,7 @@ python3 docx_footer_fix.py 我的文档.docx # 收尾：WPS 页码域兼容补�
 
 - `references/palette.json` —— **色彩数据契约**：所有工具链（reportlab / Node docx / 未来的 SVG/HTML）的色值单一来源，改色只改这一处
 - `references/palette-spec.md` —— CMYK 值、字号级数全表、书脊版/全幅版封面逐元素坐标、Word 映射表、印刷注意事项、换字体 FAQ
-- `assets/配色版式设计书_V2_无版权.pdf` / `assets/配色版式设计书_V2.1_带版权.pdf` —— 完整设计书（7 页，双版本），用户要看成品效果或复核细节时给这份
+- `assets/配色版式设计书_V2.3_无版权.pdf` / `assets/配色版式设计书_V2.3.1_带版权.pdf` —— 完整设计书（7 页，双版本），用户要看成品效果或复核细节时给这份
 - `scripts/gen_cover.py` —— 三版式生成器（默认 fullbleed 全幅封面深底，`--layout spine` 浅底封面，`--layout back` 封底装订镜像；`--barcode` EAN-13 可选条码，无码不出码；CLI 参数化，`--bleed` 出血、`--png` 预览、内置宽度自检）
 - `scripts/gen_palette_book.py` —— 参数化生成器（色板/字号/几何都是顶部常量，改完重跑；design book 与 palette.json 均由此导出）
 - `scripts/docx/` —— docx 可编辑路线（theme.js 构造器 / cover-fullbleed.js 深色封面（默认）/ cover-spine.js 浅色封面 / cover-back.js 封底（装订镜像，可选条码）/ example_report.js 全套示例（封面+目录+正文+封底）/ docx_palette_check.js 同源校验 / docx_footer_fix.py 页码补丁）
@@ -169,6 +169,7 @@ python3 docx_footer_fix.py 我的文档.docx # 收尾：WPS 页码域兼容补�
 
 ## 变更记录
 
+- **2.3.0（2026-11-10）**：正文底策略反转——**默认纸白**（docx 不设 background / reportlab 不铺底；印刷零墨、屏幕最锐利），雾白 #F7F1E7 降为护眼选项（用户点名才切；TA + 朋友盲测拍板：深栗字压雾白长时间阅读偏费眼）；设计书升 V2.3/V2.3.1 并补封底版式 B' 条目与纸白规则；示例文档正文页转纸白；新增 CHANGELOG.md（版本历史入库）。
 - **2.2.0（2026-11-10）**：新增封底版式 B'（A 深底 + 8mm 浅驼书脊条**右置**——装订镜像，双面装订后与封面书脊条同贴装订缝；层级条组右下、编号/条码左下）；封底默认不出，文档 ≥8 页或正式文档时 agent 主动建议（TA 拍板）；EAN-13 条码自绘（80% 放大、雾白衬底、墨栗条，机读回验通过），仅用户提供真实码值才生成、agent 永不建议；docx 路线 `cover-back.js`（底区双列表格并排：条码/编号栈 + 层级条组，全部 columnWidths 显式）。
 - **2.1.0（2026-11-10）**：封面默认规则改为深色全幅版——需要封面时一律先出全幅版，用户点名浅色才切书脊版，且每次出封面必须告知用户可切换（TA 拍板）；docx 路线新增 `cover-fullbleed.js`（buildFullbleedCover，此前 docx 只有浅色封面）；`gen_cover.py` 不传 `--layout` 默认出深色全幅版。
 - **2.0.0（2026-11-10）**：全幅版封面新增左侧 8mm 浅驼 #E3D0BA 书脊条（与书脊版深栗条同位同宽、色彩互为镜像，TA 定稿）；新增路线 D（docx 可编辑文档，Node docx MIT）；新增 `references/palette.json` 色彩数据契约（双工具链色值单一来源，机器导出+回读校验）；docx 内置样式全量压色（Office 默认蓝归零，产物 XML 色值 100% 白名单）；示例数据脱敏；设计书升 V2/V2.1。

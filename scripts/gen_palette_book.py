@@ -17,8 +17,8 @@
   python3 gen_palette_book.py --out 输出目录     # 指定输出目录
 
 输出：
-  配色版式设计书_V2_无版权.pdf    （无版权元数据）
-  配色版式设计书_V2.1_带版权.pdf （元数据 dc:creator=湫黎，许可 CC BY-NC 4.0 署名·非商用）
+  配色版式设计书_V2.3_无版权.pdf  （无版权元数据）
+  配色版式设计书_V2.3.1_带版权.pdf（元数据 dc:creator=湫黎，许可 CC BY-NC 4.0 署名·非商用）
 
 声明：本脚本为原创代码，未复制/未引用任何 Z.AI skill 或其他第三方受限代码；
       与 docx/pdf/pptx/charts 等 Proprietary skill 无关，依赖链无第三方商用限制。
@@ -46,7 +46,7 @@ PALETTES = {
         "tag": "主用 · 日常文档",
         "en": "MIST & CREAM",
         "colors": [
-            ("雾白", "#F7F1E7", "封面底 · 内页底 · 反白文字"),
+            ("雾白", "#F7F1E7", "书脊版封面底 · 护眼内页底 · 反白文字"),
             ("浅驼", "#E3D0BA", "分隔线 · 表格隔行 · 底纹"),
             ("奶咖", "#B08968", "标签 · 图表主色 · 页眉页脚"),
             ("栗棕", "#6B4028", "大标题 · 章节标题"),
@@ -103,7 +103,8 @@ WORD_MAP_ROWS = [
 USAGE_RULES = [
     "正文字色一律深栗／深底一律蜜白；奶咖对雾白底对比度不足，只作标签、页脚与图形色。",
     "焦糖只作点缀条与高亮，面积占比 ≤10%；大面积永远让给雾白与深栗两极。",
-    "两板共用锚点 #492D22：正式文档＝A 封面（深底）＋C 内页（浅底），可自由混搭。",
+    "两板共用锚点 #492D22：正式文档＝A 封面（深底）＋纸白内页，可自由混搭。",
+    "内页底默认纸白（屏幕最锐利 · 印刷零墨）；用户点名护眼/柔和时切雾白 #F7F1E7（深栗字压雾白偏费眼，实测拍板）。",
     "图表色序（自深而浅）：深栗 → 栗棕 → 奶咖 → 浅驼；需要第五色时引入赤栗。",
     "深底（A）上不作焦糖文字；赤栗色块上文字用蜜白。",
     "屏显直接使用 HEX；送印一律以 CMYK 打样为准，深栗大面积建议改专色（见 06）。",
@@ -498,9 +499,9 @@ def draw_fullbleed_cover(c, ox, oy, s, full_text=True):
 
 
 def draw_inner_page(c, ox, oy, s):
-    """内页缩略图（C 浅底 wireframe）。"""
+    """内页缩略图（纸白底 wireframe · 默认）。"""
     W, H = 210, 297
-    c.setFillColor(HexColor("#F7F1E7"))
+    c.setFillColor(HexColor("#FFFFFF"))
     c.setStrokeColor(HexColor("#B08968"))
     c.setLineWidth(0.8)
     c.rect(ox, oy, _mm(W) * s, _mm(H) * s, stroke=1, fill=1)
@@ -579,22 +580,22 @@ def page_03_system(c):
 
     # ---- 左列：两种组合模式 ----
     lw = 86 * mm
-    txt(c, ML, y0, "模式一 · 日常（纯 C 浅底）", "NSC-SB", 12, "#492D22")
+    txt(c, ML, y0, "模式一 · 日常（书脊封面 × 纸白内页）", "NSC-SB", 12, "#492D22")
     s = 0.19  # mini 缩放（pt per mm）
     mw, mh = 210 * mm * s, 297 * mm * s  # ≈40×56.6mm
     y1 = y0 - 8 * mm - mh
     draw_spine_cover(c, ML, y1, s, full_text=False)
     draw_inner_page(c, ML + mw + 8 * mm, y1, s)
     txt(c, ML, y1 - 5 * mm, "封面 · 书脊版", "NSC", 9, "#B08968")
-    txt(c, ML + mw + 8 * mm, y1 - 5 * mm, "内页 · C 浅底", "NSC", 9, "#B08968")
+    txt(c, ML + mw + 8 * mm, y1 - 5 * mm, "内页 · 纸白（默认）", "NSC", 9, "#B08968")
 
     y2 = y1 - 12 * mm
-    txt(c, ML, y2, "模式二 · 正式（A 封面 × C 内页）", "NSC-SB", 12, "#492D22")
+    txt(c, ML, y2, "模式二 · 正式（A 封面 × 纸白内页）", "NSC-SB", 12, "#492D22")
     y3 = y2 - 8 * mm - mh
     draw_fullbleed_cover(c, ML, y3, s, full_text=False)
     draw_inner_page(c, ML + mw + 8 * mm, y3, s)
     txt(c, ML, y3 - 5 * mm, "封面 · 全幅版", "NSC", 9, "#B08968")
-    txt(c, ML + mw + 8 * mm, y3 - 5 * mm, "内页 · C 浅底", "NSC", 9, "#B08968")
+    txt(c, ML + mw + 8 * mm, y3 - 5 * mm, "内页 · 纸白（默认）", "NSC", 9, "#B08968")
 
     # ---- 右列：Word 样式映射表 ----
     tx = ML + 88 * mm + 8 * mm
@@ -721,7 +722,8 @@ def page_05_fullbleed_layout(c):
         ("信息行", "10.5pt 蜜白"),
         ("层级短条组", "墨栗/赤栗/焦糖 · 各28×4mm"),
         ("编号", "8pt 蜜白 · 字距2pt · 右下"),
-        ("内页", "仍用 C 浅底（见02）"),
+        ("内页", "纸白默认 · 护眼可切雾白（见02）"),
+        ("封底", "版式 B' · 装订镜像 · 书脊右置 · 可选 EAN-13"),
     ]
     ty = _spec_list(c, tx, M_TOP - 10 * mm, spec)
     ty -= 2 * mm
@@ -897,8 +899,8 @@ def main():
     args = ap.parse_args()
     register_fonts(args.font_dir)
     os.makedirs(args.out, exist_ok=True)
-    p1 = os.path.join(args.out, "配色版式设计书_V2_无版权.pdf")
-    p2 = os.path.join(args.out, "配色版式设计书_V2.1_带版权.pdf")
+    p1 = os.path.join(args.out, "配色版式设计书_V2.3_无版权.pdf")
+    p2 = os.path.join(args.out, "配色版式设计书_V2.3.1_带版权.pdf")
     build(p1, copyrighted=False)
     build(p2, copyrighted=True)
     # stdout 打印对比度核查值（交付前 sanity）

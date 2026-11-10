@@ -92,8 +92,9 @@ const pageNumFooter = () => new Footer({
 const pgSize = { width: 11906, height: 16838 };
 const pgMargin = { top: T.mm(28), bottom: T.mm(22), left: T.mm(28), right: T.mm(20) };
 
+// 正文底默认纸白：不设 background（Word 默认白页，印刷零墨 · 屏幕阅读最锐利）
+// 用户点名护眼/柔和时再开：background: { color: T.CREAM }（雾白 #F7F1E7，TA 2026-11-10 拍板）
 const doc = new Document({
-  background: { color: T.CREAM },
   styles: T.docStyles(),
   sections: [
     { properties: { page: { size: pgSize, margin: { top: 0, bottom: 0, left: 0, right: 0 } } },

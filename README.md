@@ -61,7 +61,9 @@ Dependencies by route: spec-only = none ｜ PDF = `python3` + `reportlab` ｜ do
 | 书脊封面 | 雾白浅底 | 深栗 `#492D22` 左置 | 用户点名浅色 | `gen_cover.py --layout spine` |
 | 封底 | 主栗深底 | 浅驼 `#E3D0BA` **右置** | ≥8 页/正式文档（agent 建议，用户点头） | `gen_cover.py --layout back`（条码加 `--barcode "EAN13"`） |
 
-正文内页无论配哪版封面，一律 C 浅底；A 只上封面/封底。
+正文内页默认**纸白**（不铺色 · 印刷零墨 · 屏幕最锐利）；用户点名护眼/柔和才切雾白 `#F7F1E7`。A 只上封面/封底。
+
+版本历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 快速验证
 
@@ -89,8 +91,8 @@ doc-cover-palette/
 │   ├── palette.json              # 色彩数据契约（色值唯一来源）
 │   └── palette-spec.md           # 全量规格：CMYK/字号级数/逐元素坐标/印刷参数
 ├── assets/
-│   ├── 配色版式设计书_V2_无版权.pdf
-│   └── 配色版式设计书_V2.1_带版权.pdf
+│   ├── 配色版式设计书_V2.3_无版权.pdf
+│   └── 配色版式设计书_V2.3.1_带版权.pdf
 └── scripts/
     ├── gen_palette_book.py       # 设计书生成器（参数化母版）
     ├── gen_cover.py              # 三版式 CLI：封面×2+封底（出血/预览/宽度自检/EAN-13 条码）
