@@ -70,8 +70,8 @@ def draw_fullbleed(c, eyebrow, title1, title2, subtitle, info, corner_no):
 
 def main():
     ap = argparse.ArgumentParser(description="双版式封面生成器（书脊版·浅底 / 全幅版·深底）")
-    ap.add_argument("--layout", required=True, choices=["spine", "fullbleed"],
-                    help="spine=书脊版（日常·C 雾林奶咖浅底）；fullbleed=全幅版（正式·A 栗皮本色深底）")
+    ap.add_argument("--layout", default="fullbleed", choices=["spine", "fullbleed"],
+                    help="spine=书脊版（浅底·用户点名要浅色时用）；fullbleed=全幅版（深底·默认，不传即深色）")
     ap.add_argument("--eyebrow", default=gp.EYEBROW_TEXT, help="眉头文字")
     ap.add_argument("--title1", default=gp.TITLE_TEXT_1, help="主标题第一行")
     ap.add_argument("--title2", default=gp.TITLE_TEXT_2, help="主标题第二行")

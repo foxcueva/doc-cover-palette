@@ -6,7 +6,8 @@ const { Document, Packer, Paragraph, TextRun, SectionType, Footer, PageNumber, T
 const fs = require('fs');
 const path = require('path');
 const T = require(path.join(__dirname, 'theme.js'));
-const { buildSpineCover } = require(path.join(__dirname, 'cover-spine.js'));
+const { buildFullbleedCover } = require(path.join(__dirname, 'cover-fullbleed.js'));
+// 浅色封面改用：require('./cover-spine.js') 的 buildSpineCover（字段 pill/footLeft/footRight）
 
 const daily = [
   ['10-12', 0.90], ['10-13', 0.60], ['10-14', 0.65], ['10-15', 1.50],
@@ -94,15 +95,13 @@ const doc = new Document({
   styles: T.docStyles(),
   sections: [
     { properties: { page: { size: pgSize, margin: { top: 0, bottom: 0, left: 0, right: 0 } } },
-      children: buildSpineCover({
+      children: buildFullbleedCover({
         eyebrow: 'API USAGE SUMMARY',
         title1: 'API 消费小结',
         title2: '2026 年 10 月—11 月',
         subtitle: '30 天账单复盘 · 费用与用量（演示数据）',
         info: '统计区间 2026-10-12 — 2026-11-10',
-        pill: 'SUMMARY · NO.01',
-        footLeft: 'API CONSUMPTION · 2026',
-        footRight: 'QIULI',
+        cornerNo: 'SUMMARY · NO.01',
       }) },
     { properties: { type: SectionType.NEXT_PAGE, page: { size: pgSize, margin: pgMargin, pageNumbers: { start: 1, formatType: NumberFormat.UPPER_ROMAN } } },
       footers: { default: pageNumFooter() },

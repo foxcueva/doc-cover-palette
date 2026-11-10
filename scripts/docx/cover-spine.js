@@ -38,8 +38,11 @@ const blanks = (total) => {
   return out;
 };
 
+/* 版心宽（210 - 28 - 20 = 162mm）——色条/胶囊按它定宽 */
+const CONTENT_W = 162;
+
 const ruleBar = (hTwip, color) => new Table({
-  width: { size: 100, type: WidthType.PERCENTAGE }, layout: TableLayoutType.FIXED, borders: allNo,
+  width: { size: mm(CONTENT_W), type: WidthType.DXA }, columnWidths: [mm(CONTENT_W)], layout: TableLayoutType.FIXED, borders: allNo,
   rows: [new TableRow({
     height: { value: hTwip, rule: 'exact' },
     children: [new TableCell({
@@ -50,7 +53,7 @@ const ruleBar = (hTwip, color) => new Table({
 });
 
 const pill = (text) => new Table({
-  width: { size: 2300, type: WidthType.DXA }, layout: TableLayoutType.FIXED, borders: allNo,
+  width: { size: 2300, type: WidthType.DXA }, columnWidths: [2300], layout: TableLayoutType.FIXED, borders: allNo,
   rows: [new TableRow({
     height: { value: mm(9), rule: 'exact' },
     children: [new TableCell({
@@ -104,7 +107,9 @@ function buildSpineCover(cfg) {
   ];
 
   return [new Table({
-    width: { size: 100, type: WidthType.PERCENTAGE }, layout: TableLayoutType.FIXED, borders: allNo,
+    width: { size: mm(210), type: WidthType.DXA },
+    columnWidths: [mm(GEO.spine_w), mm(210 - GEO.spine_w)],
+    layout: TableLayoutType.FIXED, borders: allNo,
     rows: [new TableRow({
       height: { value: 16838, rule: 'exact' },
       children: [

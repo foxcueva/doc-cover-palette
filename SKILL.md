@@ -1,10 +1,10 @@
 ---
 name: doc-cover-palette
-description: '文档封面配色与版式系统「雾林奶咖 × 栗皮本色」（湫黎设计）。当用户需要：文档封面设计、给报告/文档做封面、封面配色、Word 文档主题色、报告排版配色、文档样式规范、按既有配色出封面、查色号或搭配、海报/卡片用这套棕色系时使用。封面两版自动选型：日常/浅色封面→书脊版（C 雾林奶咖浅底+8mm深栗书脊），正式/深色封面→全幅版（A 栗皮本色深底+8mm浅驼书脊）；PDF 定稿用 gen_cover.py 一键生成（支持出血与 PNG 预览），可编辑 Word 文档用 scripts/docx 路线（Node docx, MIT），全部色值单一来源 references/palette.json。提供完整色值（HEX/RGB/CMYK）、WCAG 对比度约束、字号级数、两套封面版式几何与可运行生成脚本。Use when the user needs document cover design, a brown/cream palette system, document theme colors, or typography specs for reports; light/dark cover routing with mirrored 8mm spine bars; PDF via gen_cover.py, editable docx via scripts/docx; single color source palette.json.'
+description: '文档封面配色与版式系统「雾林奶咖 × 栗皮本色」（湫黎设计）。当用户需要：文档封面设计、给报告/文档做封面、封面配色、Word 文档主题色、报告排版配色、文档样式规范、按既有配色出封面、查色号或搭配、海报/卡片用这套棕色系时使用。封面默认规则：需要封面时一律先出全幅版（A 栗皮本色深底 + 8mm 浅驼书脊，正式有分量），并主动告知用户可改浅色书脊版（C 雾白浅底 + 8mm 深栗书脊）——不让用户读脚本猜。PDF 定稿用 gen_cover.py 一键生成（默认深色，--layout spine 切浅色；支持出血与 PNG 预览），可编辑 Word 文档用 scripts/docx 路线（Node docx, MIT），全部色值单一来源 references/palette.json。提供完整色值（HEX/RGB/CMYK）、WCAG 对比度约束、字号级数、两套封面版式几何与可运行生成脚本。Use when the user needs document cover design, a brown/cream palette system, document theme colors, or typography specs; cover defaults to dark full-bleed (mirrored 8mm sand spine), switchable to light spine cover on request — always tell the user this; PDF via gen_cover.py (dark by default), editable docx via scripts/docx; single color source palette.json.'
 license: CC BY-NC 4.0 (author: 湫黎)
 metadata:
   author: 湫黎
-  version: "2.0.0"
+  version: "2.1.0"
   tags:
     - 配色
     - 封面设计
@@ -40,17 +40,22 @@ metadata:
 
 分工口诀：**C 管全文，A 管点状深底**——正式文档 = A 封面 + C 内页；通篇深底不做（墨量、可读性、印刷成本三输）。
 
-## 封面选型路由（深浅两版，按文档性质选）
+## 封面选型路由（默认深色，可切换）
 
-| 需求 | 版式 | 配色与底面 | 一键生成 |
+**规则（照做，别让用户读脚本猜）：**
+
+1. **默认**：文档需要封面（如有或用户要求）→ 出**全幅版**（版式 B · A 栗皮本色深底 + 8mm 浅驼书脊条），`gen_cover.py` 不传 `--layout` 即是它；docx 路线用 `cover-fullbleed.js` 的 `buildFullbleedCover`。
+2. **切换**：用户点名「浅色 / 日常 / 轻一点 / 白底」→ 出**书脊版**（版式 A · C 雾白浅底 + 8mm 深栗书脊条），`gen_cover.py --layout spine`；docx 路线用 `cover-spine.js` 的 `buildSpineCover`。
+3. **告知义务（每次出封面都要做）**：交付封面时附一句——「封面默认用了深色全幅版；想换浅色书脊版，说一声就行。」一句话说完，不啰嗦，不让用户自己去翻脚本找选项。
+
+| 版式 | 配色与底面 | 何时用 | 一键生成 |
 | --- | --- | --- | --- |
-| 日常文档 · 浅色封面 | 版式 A · 书脊版 | C 雾林奶咖：雾白浅底 + 左侧 8mm 深栗书脊条，深字 | `gen_cover.py --layout spine` |
-| 正式文档 · 深色封面 | 版式 B · 全幅版 | A 栗皮本色：满版深栗 #492D22 深底 + 左侧 8mm 浅驼书脊条，蜜白反白字 + 焦糖短条 | `gen_cover.py --layout fullbleed` |
+| 版式 B · 全幅版（默认） | A 栗皮本色：满版深栗 #492D22 深底 + 左侧 8mm 浅驼书脊条，蜜白反白字 + 焦糖短条 | 需要封面时的默认 | `gen_cover.py`（不传 --layout） |
+| 版式 A · 书脊版（切换） | C 雾林奶咖：雾白浅底 + 左侧 8mm 深栗书脊条，深字 | 用户点名浅色时 | `gen_cover.py --layout spine` |
 
 - 两版是**不同版式，不是同一版式换色**：书脊版 26pt 标题 + 胶囊标签 + 页脚行；全幅版 30pt 标题 + 焦糖短条 + 左下三段层级短条 + 右下编号。几何、字号、专属元素不可混用。
 - 两版共享同一条 **8mm 书脊条**（x: 0-8，通高）：书脊版深栗 #492D22 压雾白底，全幅版浅驼 #E3D0BA 压主栗底——同位同宽、色彩互为镜像，这是双版式风格统一的锚。
 - 正文内页无论配哪版封面，一律 C 雾林奶咖浅底（A 只上封面/扉页）。
-- 甄别口径：用户说「深色封面 / 正式版 / 有分量感」→ 全幅版；「浅色封面 / 日常版 / 轻文档」→ 书脊版。
 
 ## 六条铁律（改任何东西前先过一遍）
 
@@ -80,16 +85,16 @@ metadata:
 脚本在本 skill 的 `scripts/` 目录：
 ```bash
 pip install reportlab                            # 唯一依赖，BSD 许可
-# 日常/浅色封面（书脊版 · C 配色）
+# 默认深色封面（全幅版 · A 配色）——需要封面时默认走这条
+python3 scripts/gen_cover.py \
+    --eyebrow "EN EYEBROW" --title1 "文档主标题" --title2 "副题或年月" \
+    --subtitle "一句话说明" --info "日期或编号信息" \
+    --corner-no "NO.01" --out 封面_全幅版.pdf
+# 浅色封面（书脊版 · C 配色）——用户点名浅色时才用
 python3 scripts/gen_cover.py --layout spine \
     --eyebrow "EN EYEBROW" --title1 "文档主标题" --title2 "副题或年月" \
     --subtitle "一句话说明" --info "日期或编号信息" \
     --pill "标签文字" --foot "FOOT · 2026" --out 封面_书脊版.pdf
-# 正式/深色封面（全幅版 · A 配色）
-python3 scripts/gen_cover.py --layout fullbleed \
-    --eyebrow "EN EYEBROW" --title1 "文档主标题" --title2 "副题或年月" \
-    --subtitle "一句话说明" --info "日期或编号信息" \
-    --corner-no "NO.01" --out 封面_全幅版.pdf
 python3 scripts/gen_palette_book.py --out 输出目录   # 出整本设计规格书（7页双版本）
 ```
 - 文字全部走命令行参数（`--eyebrow/--title1/--title2/--subtitle/--info/--pill/--foot/--corner-no`），不传用默认占位文字；版式几何锁死在母版函数里，不要改；
@@ -104,14 +109,16 @@ python3 scripts/gen_palette_book.py --out 输出目录   # 出整本设计规格
 ```bash
 cd scripts/docx && npm install docx      # 首次
 node example_report.js 我的文档.docx     # 先跑示例：封面+目录+正文+表格全套版式
-# 自建文档：写 build.js，require('./theme.js') 拿色号/字号/构造器，封面用 cover-spine.js
+# 自建文档：写 build.js，require('./theme.js') 拿色号/字号/构造器，
+# 封面默认深色：require('./cover-fullbleed.js') 用 buildFullbleedCover（eyebrow/title1/title2/subtitle/info/cornerNo）
+# 用户点名浅色：require('./cover-spine.js') 用 buildSpineCover（另支持 pill/footLeft/footRight）
 bash docx_build.sh /abs/path/build.js   # 构建入口（构建前自动跑色值同源校验）
 python3 docx_footer_fix.py 我的文档.docx # 收尾：WPS 页码域兼容补丁
 ```
-- **色值唯一来源 `references/palette.json`**：theme.js / cover-spine.js / 业务脚本一律 `T.hex('色名')` 取色，禁止手写色值；`docx_palette_check.js` 扫描名单外色值直接报错退出（构建入口已内置）；
+- **色值唯一来源 `references/palette.json`**：theme.js / cover-fullbleed.js / cover-spine.js / 业务脚本一律 `T.hex('色名', '板键')` 取色（A 板色传第二参 `'A'`），禁止手写色值；`docx_palette_check.js` 扫描名单外色值直接报错退出（构建入口已内置）；
 - docx 存色**不带 #**（写 `492D22` 不是 `#492D22`），只用 RGB；CMYK/印刷参数属 PDF 路线，docx 表达不了；
 - docx **只引用字体名不嵌字体**：theme.js 默认 SimSun/SimHei（全平台必有，打开即正确）；要与 PDF 路线完全同观感，把 eastAsia 换成 `Noto Serif SC`，目标机需装该字体（OFL 1.1）；
-- 标准三节结构：封面（零边距表格拼版 + 8mm 深栗书脊条）→ 目录（罗马页码，域代码 TOC，打开后右键「更新域」）→ 正文（阿拉伯页码）；
+- 标准三节结构：封面（默认全幅版：零边距表格拼版 + 8mm 浅驼书脊条压主栗深底）→ 目录（罗马页码，域代码 TOC，打开后右键「更新域」）→ 正文（阿拉伯页码）；
 - 样式一律走 `T.docStyles()`（内置样式全量压成色板色，Office 默认蓝已归零），表格用 `T.mkTable()`。
 
 **路线 R —— 环境无 Python / 需要其他格式（SVG / HTML / Word 指引）**
@@ -132,9 +139,9 @@ python3 docx_footer_fix.py 我的文档.docx # 收尾：WPS 页码域兼容补�
 - `references/palette.json` —— **色彩数据契约**：所有工具链（reportlab / Node docx / 未来的 SVG/HTML）的色值单一来源，改色只改这一处
 - `references/palette-spec.md` —— CMYK 值、字号级数全表、书脊版/全幅版封面逐元素坐标、Word 映射表、印刷注意事项、换字体 FAQ
 - `assets/配色版式设计书_V2_无版权.pdf` / `assets/配色版式设计书_V2.1_带版权.pdf` —— 完整设计书（7 页，双版本），用户要看成品效果或复核细节时给这份
-- `scripts/gen_cover.py` —— 双版式封面生成器（spine 书脊版浅底 / fullbleed 全幅版深底，CLI 参数化，`--bleed` 出血、`--png` 预览、内置宽度自检）
+- `scripts/gen_cover.py` —— 双版式封面生成器（默认 fullbleed 全幅版深底，`--layout spine` 切书脊版浅底；CLI 参数化，`--bleed` 出血、`--png` 预览、内置宽度自检）
 - `scripts/gen_palette_book.py` —— 参数化生成器（色板/字号/几何都是顶部常量，改完重跑；design book 与 palette.json 均由此导出）
-- `scripts/docx/` —— docx 可编辑路线（theme.js 构造器 / cover-spine.js 封面 / example_report.js 全套示例 / docx_palette_check.js 同源校验 / docx_footer_fix.py 页码补丁）
+- `scripts/docx/` —— docx 可编辑路线（theme.js 构造器 / cover-fullbleed.js 深色封面（默认）/ cover-spine.js 浅色封面 / example_report.js 全套示例 / docx_palette_check.js 同源校验 / docx_footer_fix.py 页码补丁）
 
 ## 授权与边界
 
@@ -147,6 +154,7 @@ python3 docx_footer_fix.py 我的文档.docx # 收尾：WPS 页码域兼容补�
 
 ## 变更记录
 
+- **2.1.0（2026-11-10）**：封面默认规则改为深色全幅版——需要封面时一律先出全幅版，用户点名浅色才切书脊版，且每次出封面必须告知用户可切换（TA 拍板）；docx 路线新增 `cover-fullbleed.js`（buildFullbleedCover，此前 docx 只有浅色封面）；`gen_cover.py` 不传 `--layout` 默认出深色全幅版。
 - **2.0.0（2026-11-10）**：全幅版封面新增左侧 8mm 浅驼 #E3D0BA 书脊条（与书脊版深栗条同位同宽、色彩互为镜像，TA 定稿）；新增路线 D（docx 可编辑文档，Node docx MIT）；新增 `references/palette.json` 色彩数据契约（双工具链色值单一来源，机器导出+回读校验）；docx 内置样式全量压色（Office 默认蓝归零，产物 XML 色值 100% 白名单）；示例数据脱敏；设计书升 V2/V2.1。
 - **1.1.0**：gen_cover.py 统一封面生成器（双版式 CLI、--bleed 出血、--png 预览、162mm 限宽自检）。
 - **1.0.0**：初始版本（双板色板、设计书、gen_palette_book.py）。

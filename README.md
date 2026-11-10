@@ -49,20 +49,22 @@ Dependencies by route: spec-only = none ｜ PDF = `python3` + `reportlab` ｜ do
 | 焦糖 | `#B26B3F` | 强调点缀（≤10% 面积） |
 | 蜜白 | `#EAD9C0` | 深底反白字 |
 
-## 双版式（8mm 书脊互为镜像）
+## 双版式（默认深色，8mm 书脊互为镜像）
 
-| 版式 | 底面 | 书脊条 | 用途 | 命令 |
+**需要封面时默认出全幅版（深色）**；用户点名浅色才切书脊版。出封面时告知用户可切换——别让人翻脚本找选项。
+
+| 版式 | 底面 | 书脊条 | 何时用 | 命令 |
 |---|---|---|---|---|
-| 书脊版 | 雾白浅底 | 深栗 `#492D22` | 日常文档 | `gen_cover.py --layout spine` |
-| 全幅版 | 主栗深底 | 浅驼 `#E3D0BA` | 正式文档 | `gen_cover.py --layout fullbleed` |
+| 全幅版 | 主栗深底 | 浅驼 `#E3D0BA` | **默认** | `gen_cover.py`（不传 --layout） |
+| 书脊版 | 雾白浅底 | 深栗 `#492D22` | 用户点名浅色 | `gen_cover.py --layout spine` |
 
 正文内页无论配哪版封面，一律 C 浅底；A 只上封面/扉页。
 
 ## 快速验证
 
 ```bash
-# PDF 封面（无出血预览；--bleed 3 加出血，--png 150 渲染预览图）
-python3 scripts/gen_cover.py --layout fullbleed \
+# PDF 封面（默认深色全幅版；--bleed 3 加出血，--png 150 渲染预览图）
+python3 scripts/gen_cover.py \
   --title1 "标题" --title2 "第二行" --subtitle "副题" --info "日期" --out t.pdf --png 150
 
 # Word 文档（封面+目录+正文全套示例）
@@ -85,7 +87,7 @@ doc-cover-palette/
 └── scripts/
     ├── gen_palette_book.py       # 设计书生成器（参数化母版）
     ├── gen_cover.py              # 双版式封面 CLI（出血/预览/宽度自检）
-    └── docx/                     # Word 路线：theme.js / cover-spine.js / 同源校验 / 页码补丁
+    └── docx/                     # Word 路线：theme.js / cover-fullbleed.js（默认深色封面）/ cover-spine.js（浅色）/ 同源校验 / 页码补丁
 ```
 
 ## License
