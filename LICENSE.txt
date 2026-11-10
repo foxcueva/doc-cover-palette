@@ -1,0 +1,26 @@
+Copyright (c) 2026 湫黎
+
+本 skill（含 SKILL.md、references/、scripts/、assets/ 全部内容）采用
+Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)
+许可：https://creativecommons.org/licenses/by-nc/4.0/
+
+你（被许可人）可以自由地：
+  · 共享 —— 以任何介质或格式复制、分发本 skill
+  · 演绎 —— 修改、转换本 skill 并基于它创作
+
+唯须遵守以下条件：
+  · 署名 —— 必须保留署名「湫黎」，并注明许可链接；
+  · 非商用 —— 不得将本 skill 用于商业目的；
+  · 商用授权 —— 需另行取得版权人书面授权；
+  · 无额外限制 —— 不得增设法律条款或技术措施限制他人依本许可行事。
+
+版权人自用（含修改、二次开发、商业使用及其产出物）不受本许可限制。
+
+依赖声明（均为宽松许可，允许商用）：
+  · reportlab —— BSD-style License
+  · npm docx（scripts/docx 路线）—— MIT License；node_modules 不随包分发，自行 npm install
+  · Noto Serif SC / 思源宋体 —— SIL Open Font License 1.1（可商用可嵌入；
+    字体文件不随本包分发，请自行获取）
+
+本包为原创作品：未复制、未引用任何 Z.AI 专有 skill（docx/pdf/pptx/charts 等）
+或其他第三方受限代码。色号本身不受著作权保护。
