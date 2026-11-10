@@ -63,7 +63,7 @@ Dependencies by route: spec-only = none ｜ PDF = `python3` + `reportlab` ｜ do
 
 正文内页默认**纸白**（不铺色 · 印刷零墨 · 屏幕最锐利）；用户点名护眼/柔和才切雾白 `#F7F1E7`。A 只上封面/封底。
 
-版本历史见 [CHANGELOG.md](CHANGELOG.md)。
+版本历史见 [CHANGELOG.md](CHANGELOG.md)。Agent 使用前必读 [AGENT_RULES.md](AGENT_RULES.md)（六条强制规则）与 [BODY_SPEC.md](BODY_SPEC.md)（正文精确配方）。
 
 ## 快速验证
 
