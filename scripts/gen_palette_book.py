@@ -284,6 +284,7 @@ def txt(c, x, y, s, font="NSC", size=10.5, color="#492D22", cs=0.0):
     t.setCharSpace(cs)
     t.setFillColor(HexColor(color))
     t.textOut(s)
+    t.setCharSpace(0)  # Tc 是 PDF 持久文本态，ET 不重置——必须归零，否则泄漏给后续 Paragraph（字距×字数≈行宽膨胀）
     c.drawText(t)
     return t
 
