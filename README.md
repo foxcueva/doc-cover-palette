@@ -63,6 +63,8 @@ Dependencies by route: spec-only = none ｜ PDF = `python3` + `reportlab` ｜ do
 
 正文内页默认**纸白**（不铺色 · 印刷零墨 · 屏幕最锐利）；用户点名护眼/柔和才切雾白 `#F7F1E7`。A 只上封面/封底。
 
+**目录按阈值走（V2.3.4）**：正文 ≥8 页或章节 ≥4 **默认带**；正文 ≤5 页或章节 ≤2 **不带**（静默跳过）；中间灰区（6-7 页或 3 章）交付前问一句「要加目录吗」。版式规范见 [BODY_SPEC.md](BODY_SPEC.md)「目录页」——编号 + 标题 + 点线 + 页码右缘 190mm 对齐，页码以重排版后实际页码为准；Word 路线用 TOC 域自动生成。短文档带目录 = 违规废页。
+
 版本历史见 [CHANGELOG.md](CHANGELOG.md)。Agent 使用前必读 [AGENT_RULES.md](AGENT_RULES.md)（六条强制规则）与 [BODY_SPEC.md](BODY_SPEC.md)（正文精确配方）。
 
 ## 快速验证
